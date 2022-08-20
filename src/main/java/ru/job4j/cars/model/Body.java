@@ -4,22 +4,22 @@ import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
-@Table(name = "engine")
-public class Engine {
+@Table(name = "body")
+public class Body {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String type = "";
-    private byte volume;
+    private String color = "";
 
-    public Engine() {
+    public Body() {
     }
 
-    public Engine(int id, String type, byte volume) {
+    public Body(int id, String type, String color) {
         this.id = id;
         this.type = type;
-        this.volume = volume;
+        this.color = color;
     }
 
     public int getId() {
@@ -38,34 +38,31 @@ public class Engine {
         this.type = type;
     }
 
-    public byte getVolume() {
-        return volume;
+    public String getColor() {
+        return color;
     }
 
-    public void setVolume(byte volume) {
-        this.volume = volume;
+    public void setColor(String color) {
+        this.color = color;
     }
 
     @Override
     public boolean equals(Object o) {
-        if (!(o instanceof Engine)) {
+        if (!(o instanceof Body)) {
             return false;
         }
-        Engine engine = (Engine) o;
-        return id == engine.id;
+        Body body = (Body) o;
+        return id == body.id && type.equals(body.type) && color.equals(body.color);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id);
+        return (Objects.hash(id) * (31 + type.hashCode())) * (31 + color.hashCode());
     }
 
     @Override
     public String toString() {
-
         String n = System.lineSeparator();
-
-        return String.format("engine:%s id: %d%s type: %s%s volume: %d%s",
-                n, id, n, type, n, volume, n);
+        return String.format("body type: %s%s color: %s%s", type, n, color, n);
     }
 }

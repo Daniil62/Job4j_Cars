@@ -1,25 +1,27 @@
 package ru.job4j.cars.model;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import java.util.Objects;
 
 @Entity
-@Table(name = "engine")
-public class Engine {
+public class Transmission {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String type = "";
-    private byte volume;
+    private byte gears;
 
-    public Engine() {
+    public Transmission() {
     }
 
-    public Engine(int id, String type, byte volume) {
+    public Transmission(int id, String type, byte gears) {
         this.id = id;
         this.type = type;
-        this.volume = volume;
+        this.gears = gears;
     }
 
     public int getId() {
@@ -38,21 +40,21 @@ public class Engine {
         this.type = type;
     }
 
-    public byte getVolume() {
-        return volume;
+    public byte getGears() {
+        return gears;
     }
 
-    public void setVolume(byte volume) {
-        this.volume = volume;
+    public void setGears(byte gears) {
+        this.gears = gears;
     }
 
     @Override
     public boolean equals(Object o) {
-        if (!(o instanceof Engine)) {
+        if (!(o instanceof Transmission)) {
             return false;
         }
-        Engine engine = (Engine) o;
-        return id == engine.id;
+        Transmission that = (Transmission) o;
+        return id == that.id;
     }
 
     @Override
@@ -62,10 +64,8 @@ public class Engine {
 
     @Override
     public String toString() {
-
         String n = System.lineSeparator();
-
-        return String.format("engine:%s id: %d%s type: %s%s volume: %d%s",
-                n, id, n, type, n, volume, n);
+        return String.format("transmission:%s id: %d%s type: %s%s gears: %d%s",
+                n, id, n, type, n, gears, n);
     }
 }
