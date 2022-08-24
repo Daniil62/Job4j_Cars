@@ -41,5 +41,6 @@ create table if not exists item(
     vehicle_id int not null references vehicle(id),
     is_sales bool,
     photo bytea not null,
-    user_id int references user(id)
+    user_id int references user(id),
+    created timestamp not null
 );

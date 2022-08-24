@@ -1,6 +1,9 @@
 package ru.job4j.cars.model;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Entity
@@ -16,16 +19,19 @@ public class Item {
     @JoinColumn(name = "vehicle_id")
     private Vehicle vehicle;
     private boolean isSales;
-    private byte[] photo;
+    private byte[] photo = new byte[]{};
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
+    @Temporal(TemporalType.TIMESTAMP)
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDateTime created = LocalDateTime.now();
 
     public Item() {
     }
 
     public Item(long id, String header, String description,
-                Vehicle vehicle, boolean isSales, byte[] photo, User user) {
+                Vehicle vehicle, boolean isSales, byte[] photo, User user, LocalDateTime created) {
         this.id = id;
         this.header = header;
         this.description = description;
@@ -33,6 +39,7 @@ public class Item {
         this.isSales = isSales;
         this.photo = photo;
         this.user = user;
+        this.created = created;
     }
 
     public long getId() {
@@ -91,6 +98,14 @@ public class Item {
         this.user = user;
     }
 
+    public LocalDateTime getCreated() {
+        return created;
+    }
+
+    public void setCreated(LocalDateTime created) {
+        this.created = created;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (!(o instanceof Item)) {
@@ -109,8 +124,8 @@ public class Item {
     public String toString() {
         String n = System.lineSeparator();
         return String.format("Item %s header: %s%s description: %s%s%s vehicle: "
-                        + "%s%s%s is sales: %s%s owner: %s%s%s",
+                        + "%s%s%s is sales: %s%s owner: %s%s%s created: %s%s",
                 n, header, n, n, description, n, n, vehicle.toString(),
-                n, isSales ? "yes" : "no", n, n, user.toString(), n);
+                n, isSales ? "yes" : "no", n, n, user.toString(), n, created, n);
     }
 }
