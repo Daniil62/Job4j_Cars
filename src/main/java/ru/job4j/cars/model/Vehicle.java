@@ -12,30 +12,20 @@ public class Vehicle {
     private long id;
     private String brand = "";
     private String model = "";
-    @ManyToOne
+    private int year;
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "engine_id")
     private Engine engine;
-    @ManyToOne
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "transmission_id")
     private Transmission transmission;
-    @ManyToOne
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "body_id")
     private Body body;
     private int mileage;
-    private byte ownersCount;
+    private int ownersCount;
 
     public Vehicle() {
-    }
-
-    public Vehicle(long id, String name, Engine engine, Transmission transmission,
-                   Body body, int mileage, byte ownersCount) {
-        this.id = id;
-        this.brand = name;
-        this.engine = engine;
-        this.transmission = transmission;
-        this.body = body;
-        this.mileage = mileage;
-        this.ownersCount = ownersCount;
     }
 
     public long getId() {
@@ -56,6 +46,14 @@ public class Vehicle {
 
     public String getModel() {
         return model;
+    }
+
+    public int getYear() {
+        return year;
+    }
+
+    public void setYear(int year) {
+        this.year = year;
     }
 
     public void setModel(String model) {
@@ -94,11 +92,11 @@ public class Vehicle {
         this.mileage = mileage;
     }
 
-    public byte getOwnersCount() {
+    public int getOwnersCount() {
         return ownersCount;
     }
 
-    public void setOwnersCount(byte ownersCount) {
+    public void setOwnersCount(int ownersCount) {
         this.ownersCount = ownersCount;
     }
 
@@ -119,9 +117,9 @@ public class Vehicle {
     @Override
     public String toString() {
         String n = System.lineSeparator();
-        return String.format("vehicle: %s %s%s id: %d%s engine: %s%s transmission: %s%s"
+        return String.format("Vehicle: %s %s%s year: %d%s id: %d%s engine: %s%s transmission: %s%s"
                         + " body%s type: %s%s mileage: %d%s owners: %d%s",
-                brand, model, n, id, n, engine.toString(), n, transmission.toString(),
+                brand, model, n, year, n, id, n, engine.toString(), n, transmission.toString(),
                 n, n, body.toString(), n, mileage, n, ownersCount, n);
     }
 }

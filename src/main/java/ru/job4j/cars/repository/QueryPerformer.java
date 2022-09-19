@@ -6,11 +6,11 @@ import org.hibernate.Transaction;
 
 import java.util.function.Function;
 
-public class QueryExecutor implements Executor {
+public class QueryPerformer implements Performer {
 
     private final SessionFactory factory;
 
-    public QueryExecutor(SessionFactory factory) {
+    public QueryPerformer(SessionFactory factory) {
         this.factory = factory;
     }
 

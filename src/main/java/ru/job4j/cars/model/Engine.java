@@ -10,16 +10,11 @@ public class Engine {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private String type = "";
-    private byte volume;
+    private String fuelType = "";
+    private float volume;
+    private int horsepower;
 
     public Engine() {
-    }
-
-    public Engine(int id, String type, byte volume) {
-        this.id = id;
-        this.type = type;
-        this.volume = volume;
     }
 
     public int getId() {
@@ -30,20 +25,28 @@ public class Engine {
         this.id = id;
     }
 
-    public String getType() {
-        return type;
+    public String getFuelType() {
+        return fuelType;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setFuelType(String fuelType) {
+        this.fuelType = fuelType;
     }
 
-    public byte getVolume() {
+    public float getVolume() {
         return volume;
     }
 
-    public void setVolume(byte volume) {
+    public void setVolume(float volume) {
         this.volume = volume;
+    }
+
+    public int getHorsepower() {
+        return horsepower;
+    }
+
+    public void setHorsepower(int horsepower) {
+        this.horsepower = horsepower;
     }
 
     @Override
@@ -65,7 +68,7 @@ public class Engine {
 
         String n = System.lineSeparator();
 
-        return String.format("engine:%s id: %d%s type: %s%s volume: %d%s",
-                n, id, n, type, n, volume, n);
+        return String.format("id: %d%s type: %s%s volume: %f%s horsepower: %d%s",
+                id, n, fuelType, n, volume, n, horsepower, n);
     }
 }

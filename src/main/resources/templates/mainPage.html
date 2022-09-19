@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+          crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+            integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+            integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+            integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+            crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <title>Job4j Cars</title>
+</head>
+<body>
+<div class="container">
+
+    <!-- Navigation -->
+    <div>
+        <nav th:fragment="navbar" class="navbar navbar-expand-lg navbar-light bg-light">
+            <a class="navbar-brand">Job4j Cars</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse"
+                    data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                <div class="navbar-nav">
+                    <a class="nav-item nav-link" th:if="${account.name != 'Гость'}"
+                       th:href="@{/myAdsPage}" target="_blank">Мои объявления
+                    </a>
+                    <a class="nav-item nav-link"
+                       th:if="${account.name != 'Гость'}" th:href="@{/createAdForm}">
+                        Разместить объявление
+                    </a>
+                    <a class="nav-item nav-link"
+                       th:if="${account.name == 'Гость'}" th:href="@{/loginPage}">
+                        <span th:text="${account.name}"></span>
+                        <span> | Войти</span>
+                    </a>
+                    <a class="nav-item nav-link"
+                       th:if="${account.name != 'Гость'}" th:href="@{/logout}">
+                        <span th:text="${account.name}"></span>
+                        <span> | Выйти</span>
+                    </a>
+                    <a class="nav-item nav-link" th:if="${account.name == 'Гость'}"
+                       th:href="@{/registrationPage}">Регистрация</a>
+                </div>
+            </div>
+        </nav>
+    </div>
+    <br>
+    <div class="row">
+        <div class="p-3 card">
+            <div><b>Фильтры</b></div>
+            <br>
+            <div>
+                <form  th:action="@{/mainPage}" method="GET"
+                       th:object="${params}" enctype="multipart/form-data">
+                    <div class="card p-2">
+                        <p>
+                            <label>Минимальная цена:
+                                <input class="form-control" type="number"
+                                       th:id="params.minPrice"
+                                       th:name="params.minPrice"
+                                       th:field="${params.minPriceAsString}">
+                            </label>
+                        </p>
+                        <p>
+                            <label>Максимальная цена:
+                                <input class="form-control" type="number"
+                                       th:id="params.maxPrice"
+                                       th:name="params.maxPrice"
+                                       th:field="${params.maxPriceAsString}">
+                            </label>
+                        </p>
+                    </div>
+                    <br>
+                    <div class="card p-2">
+                        <p>
+                            <label>Марка:
+                                <input class="form-control" type="text"
+                                       th:id="params.brand"
+                                       th:name="params.brand"
+                                       th:field="${params.brand}">
+                            </label>
+                        </p>
+                        <p>
+                            <label>Модель:
+                                <input class="form-control" type="text"
+                                       th:id="params.model"
+                                       th:name="params.model"
+                                       th:field="${params.model}">
+                            </label>
+                        </p>
+                    </div>
+                    <br>
+                    <div class="card p-2">
+                        <label class="title">За сутки
+                            <input class="form-control"
+                                   type="checkbox"
+                                   th:id="params.byLastDay"
+                                   th:name="params.byLastDay"
+                                   th:field="${params.byLastDay}">
+                        </label>
+                    </div>
+                    <br>
+                    <button type="submit" class="btn btn-success btn-sm">Искать</button>
+                </form>
+            </div>
+        </div>
+        <div>
+            <table class="table">
+                <tbody>
+                <tr th:if="${!ads.content.isEmpty()}" th:each="ad: ${ads.content}">
+                    <td><a th:href="@{|/adPage/${ad.id}|}" target="_blank">
+                        <img th:width="270" th:high="270"
+                             th:src="@{|/photo/${ad.id}}|">
+                    </a></td>
+                    <td><b><h5><p>
+                        <a th:href="@{|/adPage/${ad.id}|}"
+                           target="_blank" th:text="${ad.header}">
+                    </a></p>
+                        <p th:text="${ad.price} + ' ₽'"></p></h5></b></td>
+                    <td th:text="${ad.getFormCreated}"></td>
+                </tr>
+                <tr th:if="${ads.isEmpty()}"><b><h2>Ничего не найдено :(</h2></b></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <br>
+    <div class="col-md-8 mx-auto">
+        <div class="row p-3">
+            <div class="card p-2">страница</div>
+            <div th:if="${ads.totalPages > 0}" class="pagination p-2"
+                 th:each="pageNumber : ${pageNumbers}">
+                <a th:href="@{/mainPage(size=${ads.size}, page=${pageNumber})}"
+                   th:text=${pageNumber}
+                   th:class="${pageNumber==ads.number + 1} ? active"></a>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

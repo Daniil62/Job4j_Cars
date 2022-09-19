@@ -1,9 +1,6 @@
 package ru.job4j.cars.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
@@ -13,15 +10,10 @@ public class Transmission {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String type = "";
-    private byte gears;
+    private int gears;
+    private String drive = "";
 
     public Transmission() {
-    }
-
-    public Transmission(int id, String type, byte gears) {
-        this.id = id;
-        this.type = type;
-        this.gears = gears;
     }
 
     public int getId() {
@@ -40,12 +32,20 @@ public class Transmission {
         this.type = type;
     }
 
-    public byte getGears() {
+    public int getGears() {
         return gears;
     }
 
-    public void setGears(byte gears) {
+    public void setGears(int gears) {
         this.gears = gears;
+    }
+
+    public String getDrive() {
+        return drive;
+    }
+
+    public void setDrive(String drive) {
+        this.drive = drive;
     }
 
     @Override
@@ -65,7 +65,7 @@ public class Transmission {
     @Override
     public String toString() {
         String n = System.lineSeparator();
-        return String.format("transmission:%s id: %d%s type: %s%s gears: %d%s",
-                n, id, n, type, n, gears, n);
+        return String.format("id: %d%s type: %s%s gears: %d%s drive: %s%s",
+                id, n, type, n, gears, n, drive, n);
     }
 }

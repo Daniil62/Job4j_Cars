@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+          crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+            integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+            integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+            integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+            crossorigin="anonymous"></script>
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <title>Job4j Cars</title>
+</head>
+<body>
+<div class="container">
+
+    <!-- Navigation -->
+    <div th:replace="fragments/navbar.html :: navbar"></div>
+    <br>
+    <div class="row">
+        <div class="info" style="width: 100%">
+            <div><b><h2 th:text="${ad.header}"></h2></b></div>
+            <br>
+            <div class="row">
+                <div class="m-3 col-first"><img th:src="@{|/photo/${ad.id}|}"
+                                      th:width="600" th:high="600" alt="">
+                </div>
+                <br>
+                <div class="card">
+                    <div class="m-3 col-last" th:if="${!ad.isSold}">
+                        <div class="m-1 p-3 border bg-light"><b><h2
+                                th:text="${ad.price + ' ₽'}"></h2></b>
+                        </div>
+                        <div class="m-1 p-3 border bg-light"><b><h2
+                                th:text="${'Тел. ' + ad.account.phone}"></h2></b>
+                        </div>
+                        <div class="m-1 p-3 border bg-light"><b
+                                th:text="${'Продавец: ' + ad.account.name}"></b>
+                        </div>
+                    </div>
+                    <div th:if="${ad.isSold}"><h1><b>ПРОДАНО</b></h1></div>
+                </div>
+            </div>
+            <br>
+            <div class="p-3 card">
+                <div class="card-header"><b>Характеристики</b></div>
+                <br>
+                <div class="card">
+                    <div class="card-header">Общая информация</div>
+                    <table>
+                        <thead>
+                        <tr>
+                            <th class="col-3">Марка:</th>
+                            <th class="col-3">Модель:</th>
+                            <th class="col-3">Год выпуска:</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td class="col-3" th:text="${ad.vehicle.brand}"></td>
+                            <td class="col-3" th:text="${ad.vehicle.model}"></td>
+                            <td class="col-3" th:text="${ad.vehicle.year}"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <br>
+                <div class="card">
+                    <div class="card-header">Двигатель</div>
+                    <table>
+                        <thead>
+                        <tr>
+                            <th class="col-3">Тип:</th>
+                            <th class="col-3">Объем:</th>
+                            <th class="col-3">Лошадиных сил:</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td class="col-3" th:text="${ad.vehicle.engine.fuelType}"></td>
+                            <td class="col-3" th:text="${ad.vehicle.engine.volume}"></td>
+                            <td class="col-3" th:text="${ad.vehicle.engine.horsepower}"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <br>
+                <div class="card">
+                    <div class="card-header">Трансмиссия</div>
+                    <table>
+                        <thead>
+                        <tr>
+                            <th class="col-3">КПП:</th>
+                            <th class="col-3">Передач:</th>
+                            <th class="col-3">Привод:</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td class="col-3" th:text="${ad.vehicle.transmission.type}"></td>
+                            <td class="col-3" th:text="${ad.vehicle.transmission.gears}"></td>
+                            <td class="col-3" th:text="${ad.vehicle.transmission.drive}"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <br>
+                <div class="card">
+                    <div class="card-header">Кузов</div>
+                    <table>
+                        <thead>
+                        <tr>
+                            <th class="col-3">Тип:</th>
+                            <th class="col-3">Цвет:</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td class="col-3" th:text="${ad.vehicle.body.type}"></td>
+                            <td class="col-3" th:text="${ad.vehicle.body.color}"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <br>
+                <div class="card">
+                    <div class="card-header">Эксплуатация</div>
+                    <table>
+                        <thead>
+                        <tr>
+                            <th class="col-3">Пробег:</th>
+                            <th class="col-3">Владельцев:</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td class="col-3" th:text="${ad.vehicle.mileage + ' Км'}"></td>
+                            <td class="col-3" th:text="${ad.vehicle.ownersCount}"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <br>
+            <div class="p-3 card" th:if="${!ad.isSold}">
+                <div class="card-header"><b>Описание:</b></div>
+                <div class="p-3 card" th:text="${ad.description}"></div>
+            </div>
+            <br>
+            <div th:text="${ad.getFormCreated()}"></div>
+            <br>
+        </div>
+    </div>
+</div>
+</body>
+</html>

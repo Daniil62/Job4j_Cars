@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+          crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+            integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+            integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+            integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+            crossorigin="anonymous"></script>
+
+    <title>Job4j Cars</title>
+</head>
+<body>
+<div class="container">
+
+    <!-- Navigation -->
+    <div>
+        <nav th:fragment="navbar" class="navbar navbar-expand-lg navbar-light bg-light">
+            <a class="navbar-brand">Job4j Cars</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse"
+                    data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                <div class="navbar-nav">
+                    <a class="nav-item nav-link" th:href="@{/mainPage}">Главная</a>
+                    <a class="nav-item nav-link" th:if="${account.name != 'Гость'}"
+                       th:href="@{/myAdsPage}" target="_blank">Мои объявления
+                    </a>
+                    <a class="nav-item nav-link"
+                       th:if="${account.name != 'Гость'}" th:href="@{/logout}">
+                        <span th:text="${account.name}"></span>
+                        <span> | Выйти</span>
+                    </a>
+                </div>
+            </div>
+        </nav>
+    </div>
+    <br>
+    <div class="row">
+        <div class="card" style="width: 100%">
+            <div class="card-header">
+                Новое объявление.
+            </div>
+            <div class="card-body">
+                <form th:action="@{/createAd}" method="POST"
+                      th:object="${ad}" enctype="multipart/form-data">
+                    <label th:for="header"><b>Заголовок:</b></label>
+                        <input th:type="text" class="form-control"
+                               th:name="header" th:id="header" th:required="true">
+                    <br>
+                    <div class="card">
+                        <label for="file"><b>Фотография:</b></label>
+                        <input type="file" class="form-control" name="file" id="file">
+                    </div>
+                    <br>
+                    <label th:for="description"><b>Текст:</b></label>
+                        <textarea th:type="text" class="form-control"
+                               th:name="description" th:id="description"
+                               th:required="true"></textarea>
+                    <br>
+                    <label th:for="price"><b>Цена:</b>
+                        <input th:type="number" class="form-control"
+                               th:name="price" th:id="price"
+                               th:required="true">
+                    </label>
+                    <br>
+                    <div class="card">
+                        <div class="card-header">Общая информация</div>
+                        <table>
+                            <thead>
+                            <tr>
+                                <th class="col-3">Марка:</th>
+                                <th class="col-3">Модель:</th>
+                                <th class="col-3">Год выпуска:</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <td>
+                                <input th:type="text" class="form-control"
+                                       th:name="vehicle.brand"
+                                       th:id="vehicle.brand"
+                                       th:required="true">
+                            </td>
+                            <td>
+                                <input th:type="text" class="form-control"
+                                       th:name="vehicle.model"
+                                       th:id="vehicle.model"
+                                       th:required="true">
+                            </td>
+                            <td>
+                                <input th:type="number" class="form-control"
+                                       th:name="vehicle.year"
+                                       th:id="vehicle.year"
+                                       th:required="true">
+                            </td>
+                            </tbody>
+                        </table>
+                    </div>
+                    <br>
+                    <div class="card">
+                        <div class="card-header">Двигатель</div>
+                        <table>
+                            <thead>
+                            <tr>
+                                <th class="col-3">Тип:</th>
+                                <th class="col-3">Объем:</th>
+                                <th class="col-3">Лошадиных сил:</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <td>
+                                <select class="form-control" id="en_type" name="en_type"
+                                        th:field="${ad.vehicle.engine.fuelType}"
+                                        th:required="true">
+                                    <option value="0"></option>
+                                    <option th:each="fType : ${enTypes}"
+                                            th:value="${fType}"
+                                            th:text="${fType}">
+                                    </option>
+                                </select>
+                            </td>
+                            <td>
+                                <select class="form-control" id="en_vol" name="en_vol"
+                                        th:field="${ad.vehicle.engine.volume}"
+                                        th:required="true">
+                                    <option value="0"></option>
+                                    <option th:each="vol : ${enVols}"
+                                            th:value="${vol}"
+                                            th:text="${vol}">
+                                    </option>
+                                </select>
+                            </td>
+                            <td>
+                                <input th:type="number" class="form-control"
+                                       th:name="vehicle.engine.horsepower"
+                                       th:id="vehicle.engine.horsepower"
+                                       th:required="true">
+                            </td>
+                            </tbody>
+                        </table>
+                    </div>
+                    <br>
+                    <div class="card">
+                        <div class="card-header">Трансмиссия</div>
+                        <table>
+                            <thead>
+                            <tr>
+                                <th class="col-3">КПП:</th>
+                                <th class="col-3">Число передач:</th>
+                                <th class="col-3">Привод:</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <td>
+                                <select class="form-control" id="tr_type" name="tr_type"
+                                        th:field="${ad.vehicle.transmission.type}"
+                                        th:required="true">
+                                    <option value="0"></option>
+                                    <option th:each="tr_type : ${trTypes}"
+                                            th:value="${tr_type}"
+                                            th:text="${tr_type}">
+                                    </option>
+                                </select>
+                            </td>
+                            <td>
+                                <select class="form-control" id="gears" name="gears"
+                                        th:field="${ad.vehicle.transmission.gears}"
+                                        th:required="true">
+                                    <option value="0"></option>
+                                    <option th:each="grs : ${gears}"
+                                            th:value="${grs}"
+                                            th:text="${grs}">
+                                    </option>
+                                </select>
+                            </td>
+                            <td>
+                                <select class="form-control" id="drive" name="drive"
+                                        th:field="${ad.vehicle.transmission.drive}"
+                                        th:required="true">
+                                    <option value="0"></option>
+                                    <option th:each="drive : ${drives}"
+                                            th:value="${drive}"
+                                            th:text="${drive}">
+                                    </option>
+                                </select>
+                            </td>
+                            </tbody>
+                        </table>
+                    </div>
+                    <br>
+                    <div class="card">
+                        <div class="card-header">Кузов</div>
+                        <table>
+                            <thead>
+                            <tr>
+                                <th class="col-3">Тип:</th>
+                                <th class="col-3">цвет:</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <td>
+                                <select class="form-control" id="b_type" name="b_type"
+                                        th:field="${ad.vehicle.body.type}"
+                                        th:required="true">
+                                    <option value="0"></option>
+                                    <option th:each="b_type : ${bodyTypes}"
+                                            th:value="${b_type}"
+                                            th:text="${b_type}">
+                                    </option>
+                                </select>
+                            </td>
+                            <td>
+                                <select class="form-control" id="b_col" name="b_col"
+                                        th:field="${ad.vehicle.body.color}"
+                                        th:required="true">
+                                    <option value="0"></option>
+                                    <option th:each="b_col : ${colors}"
+                                            th:value="${b_col}"
+                                            th:text="${b_col}">
+                                    </option>
+                                </select>
+                            </td>
+                            </tbody>
+                        </table>
+                    </div>
+                    <br>
+                    <div class="card">
+                        <div class="card-header">Эксплуатация</div>
+                        <table>
+                            <thead>
+                            <tr>
+                                <th class="col-3">Пробег:</th>
+                                <th class="col-3">Владельцев:</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <td>
+                                <input th:type="text" class="form-control"
+                                       th:name="vehicle.mileage"
+                                       th:id="vehicle.mileage"
+                                       th:required="true">
+                            </td>
+                            <td>
+                                <select class="form-control" id="own_cnt" name="own_cnt"
+                                        th:field="${ad.vehicle.ownersCount}" th:required="true">
+                                    <option value="0"></option>
+                                    <option th:each="own_cnt : ${owners}"
+                                            th:value="${own_cnt}"
+                                            th:text="${own_cnt}">
+                                    </option>
+                                </select>
+                            </td>
+                            </tbody>
+                        </table>
+                    </div>
+                    <br>
+                    <button type="submit" class="btn btn-primary">Сохранить</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

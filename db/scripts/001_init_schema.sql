@@ -1,46 +1,71 @@
-create table if not exists engine(
-    id serial primary key,
-    type varchar not null,
-    volume int not null
+CREATE TABLE IF NOT EXISTS engineType(
+     id SERIAL PRIMARY KEY,
+     type VARCHAR NOT NULL UNIQUE
 );
 
-create table if not exists transmission(
-   id serial primary key,
-   type varchar not null,
-   gears int not null
+CREATE TABLE IF NOT EXISTS engine(
+     id SERIAL PRIMARY KEY,
+     fuelType VARCHAR NOT NULL,
+     volume DOUBLE,
+     horsepower INT
 );
 
-create table if not exists body(
-    id serial primary key,
-    type varchar not null,
-    colour varchar not null
+CREATE TABLE IF NOT EXISTS transmissionType(
+     id SERIAL PRIMARY KEY,
+     type VARCHAR NOT NULL UNIQUE
 );
 
-create table if not exists vehicle(
-    id serial primary key,
-    brand varchar not null,
-    model varchar not null,
-    engine_id int not null references engine(id),
-    transmission_id int not null references transmission(id),
-    body_id int not null references body(id),
-    mileage int not null,
-    owners_count int not null
+CREATE TABLE IF NOT EXISTS transmission(
+     id SERIAL PRIMARY KEY,
+     type VARCHAR NOT NULL,
+     gears INT,
+     drive VARCHAR NOT NULL
 );
 
-create table if not exists user(
-    id serial primary key,
-    name varchar not null,
-    login varchar not null unique,
-    password varchar not null
+CREATE TABLE IF NOT EXISTS bodyType(
+     id SERIAL PRIMARY KEY,
+     type VARCHAR NOT NULL UNIQUE
 );
 
-create table if not exists item(
-    id serial primary key,
-    header varchar not null,
-    description varchar not null,
-    vehicle_id int not null references vehicle(id),
-    is_sales bool,
-    photo bytea not null,
-    user_id int references user(id),
-    created timestamp not null
+CREATE TABLE IF NOT EXISTS bodyColor(
+     id SERIAL PRIMARY KEY,
+     colour VARCHAR NOT NULL UNIQUE,
+     hex VARCHAR NOT NULL UNIQUE
+);
+
+CREATE TABLE IF NOT EXISTS body(
+     id SERIAL PRIMARY KEY,
+     type VARCHAR NOT NULL,
+     colour VARCHAR NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS vehicle(
+    id SERIAL PRIMARY KEY,
+    brand VARCHAR NOT NULL,
+    model VARCHAR NOT NULL,
+    engine_id INT REFERENCES engine(id),
+    transmission_id INT NOT NULL REFERENCES transmission(id),
+    body_id INT REFERENCES body(id),
+    mileage INT,
+    owners_count INT
+);
+
+CREATE TABLE IF NOT EXISTS account(
+    id SERIAL PRIMARY KEY,
+    name VARCHAR NOT NULL,
+    login VARCHAR NOT NULL UNIQUE,
+    password VARCHAR NOT NULL,
+    phone VARCHAR NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS ad(
+    id SERIAL PRIMARY KEY,
+    header VARCHAR NOT NULL,
+    description VARCHAR NOT NULL,
+    vehicle_id INT REFERENCES vehicle(id),
+    is_sold BOOL,
+    photo bytea NOT NULL,
+    account_id INT REFERENCES account(id),
+    created TIMESTAMP NOT NULL,
+    price DOUBLE
 );

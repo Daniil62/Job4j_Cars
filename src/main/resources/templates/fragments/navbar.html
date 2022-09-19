@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<body>
+<div>
+    <nav th:fragment="navbar" class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand">Job4j Cars</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse"
+                data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup"
+                aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div class="navbar-nav">
+                <a class="nav-item nav-link" th:href="@{/mainPage}">Главная</a>
+                <a class="nav-item nav-link" th:if="${account.name != 'Гость'}"
+                   th:href="@{/myAdsPage}" target="_blank">Мои объявления
+                </a>
+                <a class="nav-item nav-link"
+                   th:if="${account.name != 'Гость'}" th:href="@{/createAdForm}"
+                   target="_blank">
+                    Разместить объявление
+                </a>
+                <a class="nav-item nav-link"
+                   th:if="${account.name == 'Гость'}" th:href="@{/loginPage}">
+                    <span th:text="${account.name}"></span>
+                    <span> | Войти</span>
+                </a>
+                <a class="nav-item nav-link"
+                   th:if="${account.name != 'Гость'}" th:href="@{/logout}">
+                    <span th:text="${account.name}"></span>
+                    <span> | Выйти</span>
+                </a>
+            </div>
+        </div>
+    </nav>
+</div>
+</body>
+</html>

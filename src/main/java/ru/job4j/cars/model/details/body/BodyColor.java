@@ -1,19 +1,20 @@
-package ru.job4j.cars.model;
+package ru.job4j.cars.model.details.body;
 
 import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
-@Table(name = "body")
-public class Body {
+public class BodyColor {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private String type = "";
+    @Column(unique = true, nullable = false)
     private String color = "";
+    @Column(unique = true, nullable = false)
+    private String hex = "";
 
-    public Body() {
+    public BodyColor() {
     }
 
     public int getId() {
@@ -24,14 +25,6 @@ public class Body {
         this.id = id;
     }
 
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
     public String getColor() {
         return color;
     }
@@ -40,25 +33,31 @@ public class Body {
         this.color = color;
     }
 
+    public String getHex() {
+        return hex;
+    }
+
+    public void setHex(String hex) {
+        this.hex = hex;
+    }
+
     @Override
     public boolean equals(Object o) {
-        if (!(o instanceof Body)) {
+        if (!(o instanceof BodyColor)) {
             return false;
         }
-        Body body = (Body) o;
-        return id == body.id && type.equals(body.type) && color.equals(body.color);
+        BodyColor bodyColor = (BodyColor) o;
+        return id == bodyColor.id && color.equals(bodyColor.color);
     }
 
     @Override
     public int hashCode() {
-        return (Objects.hash(id)
-                * (31 + type.hashCode())) * (31 + color.hashCode());
+        return Objects.hash(id) * (31 + color.hashCode());
     }
 
     @Override
     public String toString() {
         String n = System.lineSeparator();
-        return String.format("id: %d%s type: %s%s color: %s%s",
-                id, n, type, n, color, n);
+        return String.format(" color: %s%s HEX: %s%s", color, n, hex, n);
     }
 }

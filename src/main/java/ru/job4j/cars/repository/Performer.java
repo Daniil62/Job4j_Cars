@@ -4,7 +4,7 @@ import org.hibernate.Session;
 
 import java.util.function.Function;
 
-public interface Executor {
+public interface Performer {
 
     public <T> T execute(final Function<Session, T> command);
 }
