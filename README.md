@@ -9,6 +9,5 @@
    - JDBC,
    - Liquibase
 ___
-1. Создана схема взаимодействия таблиц базы данных: транспортное средство,
-   двигатель, владелец, прошлые владельцы.
+![Alt](https://github.com/Daniil62/Job4j_Cars/blob/master/job4j_cars_image.png)
 ___
